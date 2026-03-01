@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="vaxp-color-picker">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="adw" version="1.0"/>
+  <template class="VaxpWindow" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">VAXP Color Picker</property>
+    <property name="default-width">400</property>
+    <property name="default-height">700</property>
+    <property name="width-request">350</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-end-title-buttons">True</property>
+            <property name="show-start-title-buttons">True</property>
+            <child type="end">
+              <object class="GtkButton" id="pick_screen_btn">
+                <property name="icon-name">color-select-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Pick from Screen</property>
+                <signal name="clicked" handler="on_pick_screen_clicked" swapped="no"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow">
+            <property name="hscrollbar-policy">never</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <property name="margin-top">24</property>
+                <property name="margin-bottom">24</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                
+                <child>
+                  <object class="GtkBox" id="color_preview_box">
+                    <property name="height-request">150</property>
+                    <property name="css-classes">card</property>
+                    <style>
+                      <class name="card"/>
+                      <class name="color-preview"/>
+                    </style>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">HEX</property>
+                        <child>
+                          <object class="GtkEntry" id="hex_entry">
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_hex_btn">
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">RGB</property>
+                        <child>
+                          <object class="GtkEntry" id="rgb_entry">
+                            <property name="valign">center</property>
+                            <property name="editable">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_rgb_btn">
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">HSL</property>
+                        <child>
+                          <object class="GtkEntry" id="hsl_entry">
+                            <property name="valign">center</property>
+                            <property name="editable">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_hsl_btn">
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">HSV</property>
+                        <child>
+                          <object class="GtkEntry" id="hsv_entry">
+                            <property name="valign">center</property>
+                            <property name="editable">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_hsv_btn">
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">CMYK</property>
+                        <child>
+                          <object class="GtkEntry" id="cmyk_entry">
+                            <property name="valign">center</property>
+                            <property name="editable">false</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="copy_cmyk_btn">
+                            <property name="icon-name">edit-copy-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <property name="title">Palette &amp; Accessibility</property>
+                    
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">WCAG Contrast (vs White)</property>
+                        <child>
+                          <object class="GtkLabel" id="wcag_white_label">
+                            <property name="valign">center</property>
+                            <property name="margin-end">12</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">WCAG Contrast (vs Black)</property>
+                        <child>
+                          <object class="GtkLabel" id="wcag_black_label">
+                            <property name="valign">center</property>
+                            <property name="margin-end">12</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="AdwActionRow">
+                        <property name="title">Complementary</property>
+                        <child>
+                          <object class="GtkBox" id="comp_color_box">
+                            <property name="width-request">30</property>
+                            <property name="height-request">30</property>
+                            <property name="valign">center</property>
+                            <property name="margin-end">12</property>
+                            <style>
+                              <class name="card"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="comp_hex_label">
+                            <property name="valign">center</property>
+                            <property name="margin-end">12</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

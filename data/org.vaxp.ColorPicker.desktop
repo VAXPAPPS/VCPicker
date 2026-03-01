@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=VAXP Color Picker
+Comment=Advanced precision color picker and contrast checker
+Exec=vaxp-color-picker
+Icon=preferences-desktop-theme
+Terminal=false
+Type=Application
+Categories=Utility;Graphics;
+StartupNotify=true
+DBusActivatable=true
