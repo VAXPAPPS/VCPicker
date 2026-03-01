@@ -1,1 +1,1 @@
-# -VCPicker
+# VCPicker
