@@ -1,0 +1,6 @@
+d4b3a678b4d4dea9ff8c0fe89f29d36d  usr/bin/vcpicker
+d98700311763e356a4d0660d0d151858  usr/share/applications/org.vaxp.ColorPicker.desktop
+91d65351085d558b263b822970a8bb58  usr/share/doc/vcpicker/changelog.Debian.gz
+2d6cf7cfa1d6cb117818f50ac266a2ec  usr/share/doc/vcpicker/copyright
+cda8b8bff0ac2bbd39eda25c2c35506a  usr/share/glib-2.0/schemas/org.vaxp.ColorPicker.gschema.xml
+bcfbe37d55d7461eb7c52592afb8df3f  usr/share/icons/hicolor/scalable/apps/org.vaxp.ColorPicker.svg

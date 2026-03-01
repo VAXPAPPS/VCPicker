@@ -1,0 +1,13 @@
+Package: vcpicker-dbgsym
+Package-Type: ddeb
+Source: vcpicker
+Version: 1.0.0-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: VAXP Team <team@vaxp.org>
+Installed-Size: 46
+Depends: vcpicker (= 1.0.0-1)
+Section: debug
+Priority: optional
+Description: debug symbols for vcpicker
+Build-Ids: 0f84f65f05df282cb278882c5cdfb0a29f48a775

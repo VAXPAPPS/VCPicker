@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0d0d1a;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <rect width="128" height="128" rx="28" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/>
+
+  <!-- Glow effect -->
+  <circle cx="64" cy="64" r="36" fill="url(#glow)"/>
+
+  <!-- Eyedropper Graphic -->
+  <g transform="translate(64,64) rotate(-45)">
+    <!-- Dropper Bulb -->
+    <path d="M -16 -12 A 16 16 0 0 1 16 -12 L 16 -2 L -16 -2 Z" fill="url(#accent)"/>
+    <!-- Dropper Body -->
+    <path d="M -12 -2 L 12 -2 L 12 18 L -12 18 Z" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linejoin="round"/>
+    <!-- Dropper Tip -->
+    <path d="M -12 18 L -5 32 L 5 32 L 12 18" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Color Drop -->
+    <path d="M 0 44 C -9 52 -9 62 0 62 C 9 62 9 52 0 44 Z" fill="url(#accent)"/>
+  </g>
+</svg>

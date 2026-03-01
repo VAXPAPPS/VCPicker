@@ -7,7 +7,7 @@ vaxp_src = [
   resources,
 ]
 
-executable('vaxp-color-picker', vaxp_src,
+executable('vcpicker', vaxp_src,
   dependencies: vaxp_deps,
   install: true,
 )

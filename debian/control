@@ -1,0 +1,23 @@
+Source: vcpicker
+Section: graphics
+Priority: optional
+Maintainer: VAXP Team <team@vaxp.org>
+Build-Depends: debhelper-compat (= 13),
+               meson (>= 0.62),
+               ninja-build,
+               pkg-config,
+               libgtk-4-dev (>= 4.10),
+               libadwaita-1-dev (>= 1.4),
+               libglib2.0-dev
+Standards-Version: 4.6.2
+Homepage: https://vaxp.org
+Rules-Requires-Root: no
+
+Package: vcpicker
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: Professional color picker for VAXP-OS
+ Advanced precision screen color picker explicitly built for the VAXP ecosystem.
+ Features GTK4 native UIs, transparency support, palette generation, and XDG portal backend.
+ Built for VAXP-OS.

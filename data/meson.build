@@ -21,3 +21,7 @@ install_data('org.vaxp.ColorPicker.desktop',
 install_data('org.vaxp.ColorPicker.gschema.xml',
   install_dir: get_option('datadir') / 'glib-2.0' / 'schemas'
 )
+
+install_data('org.vaxp.ColorPicker.svg',
+  install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
+)
