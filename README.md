@@ -16,7 +16,6 @@
 - `meson` (>= 0.62.0)
 - `ninja`
 - `gtk4` (>= 4.10.0)
-- `libadwaita-1` (>= 1.4.0)
 
 ## 🚀 Building and Running
 

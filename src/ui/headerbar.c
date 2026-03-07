@@ -125,18 +125,24 @@ vaxp_headerbar_new (GtkWindow *window)
     GtkWidget *center_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
     gtk_widget_set_valign (center_box, GTK_ALIGN_CENTER);
     gtk_widget_set_hexpand (center_box, TRUE);
-    gtk_widget_set_halign (center_box, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign (center_box, GTK_ALIGN_START);
+    gtk_widget_set_margin_start (center_box, 12);
+    gtk_widget_set_margin_top(center_box, 12);
+    gtk_widget_set_margin_bottom(center_box, 12);
 
     self->title_label = gtk_label_new ("VAXP Color Picker");
     gtk_widget_add_css_class (self->title_label, "title");
     gtk_label_set_ellipsize (GTK_LABEL (self->title_label), PANGO_ELLIPSIZE_END);
+    gtk_widget_set_valign(self->title_label, GTK_ALIGN_CENTER);
 
     self->subtitle_label = gtk_label_new ("");
     gtk_widget_add_css_class (self->subtitle_label, "subtitle");
     gtk_label_set_ellipsize (GTK_LABEL (self->subtitle_label), PANGO_ELLIPSIZE_END);
+    gtk_widget_set_valign(self->subtitle_label, GTK_ALIGN_CENTER);
 
     gtk_box_append (GTK_BOX (center_box), self->title_label);
     gtk_box_append (GTK_BOX (center_box), self->subtitle_label);
+    gtk_widget_set_valign(center_box, GTK_ALIGN_CENTER);
 
     /* End box for toolbar buttons */
     self->end_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
