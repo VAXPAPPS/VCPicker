@@ -2,8 +2,8 @@ Package: vcpicker
 Version: 1.0.0-1
 Architecture: amd64
 Maintainer: VAXP Team <team@vaxp.org>
-Installed-Size: 55
-Depends: libadwaita-1-0 (>= 1.4), libc6 (>= 2.34), libglib2.0-0t64 (>= 2.79.0), libgtk-4-1 (>= 4.10), dconf-gsettings-backend | gsettings-backend
+Installed-Size: 71
+Depends: libc6 (>= 2.34), libglib2.0-0t64 (>= 2.79.0), libgtk-4-1 (>= 4.10), libx11-6, dconf-gsettings-backend | gsettings-backend
 Section: graphics
 Priority: optional
 Homepage: https://vaxp.org
