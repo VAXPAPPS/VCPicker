@@ -3,6 +3,7 @@ vaxp_src = [
   'core/color.c',
   'core/palette.c',
   'ui/window.c',
+  'ui/headerbar.c',
   'portal/picker.c',
   resources,
 ]

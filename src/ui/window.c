@@ -2,11 +2,13 @@
 #include "../core/color.h"
 #include "../core/palette.h"
 #include "../portal/picker.h"
+#include "headerbar.h"
 #include <string.h>
 
 struct _VaxpWindow {
-    AdwApplicationWindow parent_instance;
+    GtkApplicationWindow parent_instance;
 
+    GtkWidget *header_container;
     GtkWidget *color_preview_box;
     GtkWidget *hex_entry;
     GtkWidget *rgb_entry;
@@ -26,7 +28,7 @@ struct _VaxpWindow {
     GtkWidget *comp_hex_label;
 };
 
-G_DEFINE_TYPE(VaxpWindow, vaxp_window, ADW_TYPE_APPLICATION_WINDOW)
+G_DEFINE_TYPE(VaxpWindow, vaxp_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void update_colors_from_hex(VaxpWindow *self, const gchar *hex) {
     if (!hex || strlen(hex) < 4) return;
@@ -159,6 +161,7 @@ static void vaxp_window_class_init(VaxpWindowClass *klass) {
 
     gtk_widget_class_set_template_from_resource(widget_class, "/org/vaxp/ColorPicker/ui/window.ui");
 
+    gtk_widget_class_bind_template_child(widget_class, VaxpWindow, header_container);
     gtk_widget_class_bind_template_child(widget_class, VaxpWindow, color_preview_box);
     gtk_widget_class_bind_template_child(widget_class, VaxpWindow, hex_entry);
     gtk_widget_class_bind_template_child(widget_class, VaxpWindow, rgb_entry);
@@ -185,15 +188,42 @@ static void vaxp_window_class_init(VaxpWindowClass *klass) {
 static void vaxp_window_init(VaxpWindow *self) {
     gtk_widget_init_template(GTK_WIDGET(self));
 
+    VaxpHeaderBar *headerbar = vaxp_headerbar_new(GTK_WINDOW(self));
+    gtk_box_append(GTK_BOX(self->header_container), GTK_WIDGET(headerbar));
+
+    GtkWidget *pick_screen_btn = gtk_button_new_from_icon_name("color-select-symbolic");
+    gtk_widget_set_tooltip_text(pick_screen_btn, "Pick from Screen");
+    g_signal_connect(pick_screen_btn, "clicked", G_CALLBACK(on_pick_screen_clicked), self);
+    gtk_box_append(GTK_BOX(vaxp_headerbar_get_end_box(headerbar)), pick_screen_btn);
+
     // Custom Translucent Background: ARGB(100, 0, 0, 0)
     // In CSS, alpha is 0-1, so 100/255 = 0.392
-    const gchar *window_css = "window { background-color: rgba(0, 0, 0, 0.392); }";
+    const gchar *window_css = 
+        "window { background-color: rgba(0, 0, 0, 0.392); }\n"
+        ".var-window-btn {\n"
+        "    min-width: 14px;\n"
+        "    min-height: 14px;\n"
+        "    padding: 0;\n"
+        "    border-radius: 50%;\n"
+        "    margin: 4px 6px;\n"
+        "    border: 1px solid rgba(0, 0, 0, 0.4);\n"
+        "    background-size: 8px 8px;\n"
+        "    background-position: center;\n"
+        "    background-repeat: no-repeat;\n"
+        "    transition: all 0.2s ease;\n"
+        "}\n"
+        ".var-btn-close { background-color: #ff5f56; }\n"
+        ".var-btn-minimize { background-color: #ffbd2e; }\n"
+        ".var-btn-maximize { background-color: #27c93f; }\n"
+        ".var-window-btn:hover { filter: brightness(1.2); }\n"
+        ".title { font-weight: bold; font-size: 14px; color: white; }\n"
+        ".subtitle { font-size: 11px; color: rgba(255, 255, 255, 0.6); }\n";
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gtk_css_provider_load_from_data(css_provider, window_css, -1);
     
     // Apply to the specific window instance
-    gtk_style_context_add_provider(
-        gtk_widget_get_style_context(GTK_WIDGET(self)),
+    gtk_style_context_add_provider_for_display(
+        gdk_display_get_default(),
         GTK_STYLE_PROVIDER(css_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
     );
@@ -207,7 +237,7 @@ static void vaxp_window_init(VaxpWindow *self) {
     g_signal_connect(self->copy_cmyk_btn, "clicked", G_CALLBACK(on_copy_cmyk), self);
 }
 
-VaxpWindow* vaxp_window_new(AdwApplication *app) {
+VaxpWindow* vaxp_window_new(GtkApplication *app) {
     return g_object_new(VAXP_TYPE_WINDOW, "application", app, NULL);
 }
 

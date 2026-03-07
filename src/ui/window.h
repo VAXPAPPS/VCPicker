@@ -1,14 +1,14 @@
 #ifndef VAXP_WINDOW_H
 #define VAXP_WINDOW_H
 
-#include <adwaita.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
 #define VAXP_TYPE_WINDOW (vaxp_window_get_type())
-G_DECLARE_FINAL_TYPE(VaxpWindow, vaxp_window, VAXP, WINDOW, AdwApplicationWindow)
+G_DECLARE_FINAL_TYPE(VaxpWindow, vaxp_window, VAXP, WINDOW, GtkApplicationWindow)
 
-VaxpWindow* vaxp_window_new(AdwApplication *app);
+VaxpWindow* vaxp_window_new(GtkApplication *app);
 void vaxp_window_set_color_hex(VaxpWindow *self, const gchar *hex);
 
 G_END_DECLS

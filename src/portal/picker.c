@@ -1,10 +1,107 @@
 #include "picker.h"
 #include <gio/gio.h>
 
+#ifdef HAVE_X11
+#include <X11/Xlib.h>
+#include <X11/cursorfont.h>
+#include <X11/Xutil.h>
+#endif
+
 static guint signal_id = 0;
 static VaxpColorPickedCallback current_callback = NULL;
 static gpointer current_user_data = NULL;
 static gchar *current_request_path = NULL;
+
+#ifdef HAVE_X11
+typedef struct {
+    VaxpColorPickedCallback callback;
+    gpointer user_data;
+} FallbackData;
+
+static gboolean fallback_callback_idle(gpointer data) {
+    gchar *hex = (gchar *)data;
+    if (current_callback) {
+        current_callback(hex, current_user_data);
+    }
+    g_free(hex);
+    current_callback = NULL;
+    current_user_data = NULL;
+    return G_SOURCE_REMOVE;
+}
+
+static gpointer pick_color_fallback_thread(gpointer data) {
+    (void)data;
+    Display *dpy = XOpenDisplay(NULL);
+    if (!dpy) {
+        g_warning("Could not open X display for fallback color picker");
+        current_callback = NULL;
+        current_user_data = NULL;
+        return NULL;
+    }
+
+    int screen = DefaultScreen(dpy);
+    Window root = RootWindow(dpy, screen);
+    Cursor cursor = XCreateFontCursor(dpy, XC_crosshair);
+
+    if (XGrabPointer(dpy, root, False,
+                     ButtonPressMask, GrabModeAsync,
+                     GrabModeAsync, root, cursor, CurrentTime) != GrabSuccess) {
+        g_warning("Could not grab pointer for X11 fallback");
+        XFreeCursor(dpy, cursor);
+        XCloseDisplay(dpy);
+        current_callback = NULL;
+        current_user_data = NULL;
+        return NULL;
+    }
+
+    XEvent ev;
+    gboolean picked = FALSE;
+    gchar *hex = NULL;
+
+    while (!picked && !g_thread_self()) {
+        /* Not ideal polling if thread cancelled, but sufficient for short pick */
+    }
+
+    while (!picked) {
+        XNextEvent(dpy, &ev);
+        if (ev.type == ButtonPress && ev.xbutton.button == 1) {
+            int x = ev.xbutton.x_root;
+            int y = ev.xbutton.y_root;
+            
+            XImage *image = XGetImage(dpy, root, x, y, 1, 1, AllPlanes, ZPixmap);
+            if (image) {
+                unsigned long pixel = XGetPixel(image, 0, 0);
+                XColor color;
+                color.pixel = pixel;
+                XQueryColor(dpy, DefaultColormap(dpy, screen), &color);
+                
+                hex = g_strdup_printf("#%02X%02X%02X",
+                                      color.red >> 8,
+                                      color.green >> 8,
+                                      color.blue >> 8);
+                XDestroyImage(image);
+            }
+            picked = TRUE;
+        } else if (ev.type == ButtonPress) {
+            // Cancel on right/middle click
+            picked = TRUE;
+        }
+    }
+
+    XUngrabPointer(dpy, CurrentTime);
+    XFreeCursor(dpy, cursor);
+    XCloseDisplay(dpy);
+
+    if (hex) {
+        g_idle_add(fallback_callback_idle, hex);
+    } else {
+        current_callback = NULL;
+        current_user_data = NULL;
+    }
+
+    return NULL;
+}
+#endif
 
 static void
 on_response_signal (GDBusConnection *connection,
@@ -62,8 +159,16 @@ pick_color_ready_cb (GObject      *source_object,
 
     result = g_dbus_connection_call_finish (connection, res, &error);
     if (!result) {
-        g_warning ("PickColor call failed: %s", error->message);
+        g_warning ("PickColor call failed via Portal: %s. Attempting fallback.", error->message);
         g_error_free (error);
+        
+#ifdef HAVE_X11
+        g_thread_unref(g_thread_new("x11-pick-fallback", pick_color_fallback_thread, NULL));
+#else
+        g_warning ("No X11 fallback available.");
+        current_callback = NULL;
+        current_user_data = NULL;
+#endif
         return;
     }
 

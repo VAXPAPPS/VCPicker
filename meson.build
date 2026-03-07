@@ -9,7 +9,6 @@ i18n = import('i18n')
 cc = meson.get_compiler('c')
 
 dependency('gtk4', version: '>= 4.10.0')
-dependency('libadwaita-1', version: '>= 1.4.0')
 dependency('glib-2.0')
 dependency('gio-2.0')
 dependency('gio-unix-2.0')
@@ -17,12 +16,17 @@ m_dep = cc.find_library('m', required : true)
 
 vaxp_deps = [
   dependency('gtk4'),
-  dependency('libadwaita-1'),
   dependency('glib-2.0'),
   dependency('gio-2.0'),
   dependency('gio-unix-2.0'),
   m_dep
 ]
+
+x11_dep = dependency('x11', required: false)
+if x11_dep.found()
+  vaxp_deps += x11_dep
+  add_project_arguments('-DHAVE_X11', language: 'c')
+endif
 
 subdir('data')
 subdir('src')
