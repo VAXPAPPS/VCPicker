@@ -1,3 +1,0 @@
-misc:Depends=dconf-gsettings-backend | gsettings-backend
-shlibs:Depends=libc6 (>= 2.34), libglib2.0-0t64 (>= 2.79.0), libgtk-4-1 (>= 4.10), libx11-6
-misc:Pre-Depends=

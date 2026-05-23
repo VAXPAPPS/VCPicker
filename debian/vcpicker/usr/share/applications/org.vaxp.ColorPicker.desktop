@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=VCPicker
-Comment=Advanced precision color picker and contrast checker
-Exec=/usr/bin/vcpicker
-Icon=org.vaxp.ColorPicker
-Terminal=false
-Type=Application
-Categories=Utility;Graphics;
-StartupNotify=true
