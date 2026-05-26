@@ -56,7 +56,7 @@ static void update_colors_from_hex(VaxpWindow *self, const gchar *hex) {
         ".color-preview { background-color: %s; border-radius: 12px; }", hex);
     
     GtkCssProvider *provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(provider, css, -1);
+    gtk_css_provider_load_from_string(provider, css);
     gtk_style_context_add_provider(
         gtk_widget_get_style_context(self->color_preview_box),
         GTK_STYLE_PROVIDER(provider),
@@ -90,7 +90,7 @@ static void update_colors_from_hex(VaxpWindow *self, const gchar *hex) {
         ".comp-preview { background-color: %s; border-radius: 12px; }", comp_hex);
     
     GtkCssProvider *comp_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(comp_provider, comp_css, -1);
+    gtk_css_provider_load_from_string(comp_provider, comp_css);
     gtk_style_context_add_provider(
         gtk_widget_get_style_context(self->comp_color_box),
         GTK_STYLE_PROVIDER(comp_provider),
@@ -219,7 +219,7 @@ static void vaxp_window_init(VaxpWindow *self) {
         ".title { font-weight: bold; font-size: 14px; color: white; }\n"
         ".subtitle { font-size: 11px; color: rgba(255, 255, 255, 0.6); }\n";
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(css_provider, window_css, -1);
+    gtk_css_provider_load_from_string(css_provider, window_css);
     
     // Apply to the specific window instance
     gtk_style_context_add_provider_for_display(

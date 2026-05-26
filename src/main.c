@@ -1,10 +1,12 @@
 #include <gtk/gtk.h>
 #include "ui/window.h"
+#include "theme_manager.h"
 
 static void
 activate (GtkApplication *app,
           gpointer        user_data)
 {
+  theme_manager_init();
   VaxpWindow *window = vaxp_window_new (GTK_APPLICATION(app));
   vaxp_window_set_color_hex(window, "#3584e4"); // Default color
   gtk_window_present (GTK_WINDOW (window));

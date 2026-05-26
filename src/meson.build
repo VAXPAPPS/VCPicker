@@ -1,5 +1,6 @@
 vaxp_src = [
   'main.c',
+  'theme_manager.c',
   'core/color.c',
   'core/palette.c',
   'ui/window.c',
